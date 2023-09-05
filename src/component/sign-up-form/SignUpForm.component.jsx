@@ -6,6 +6,7 @@ import {
 } from '../../utils/firebase/firebase.utils';
 import FormInput from '../form-input/FormInput.component';
 import Button from '../button/Button.component';
+
 const defaultUser = {
   displayName: '',
   email: '',
@@ -89,7 +90,7 @@ const SignUpForm = () => {
           }}
         />
 
-        <Button buttonType='google' type="submit" >Sign Up</Button>
+        <Button type="submit" >Sign Up</Button>
       </form>
     </div>
   );
