@@ -7,6 +7,8 @@ import {
   signInWithPhoneNumber,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
 } from 'firebase/auth';
 import {
   getFirestore,
@@ -14,14 +16,7 @@ import {
   getDoc, // to be exact it is get doc data
   setDoc // to be exact it is set doc data
 } from 'firebase/firestore';
-const firebaseConfig = {
-  apiKey: 'AIzaSyDTFopdOwnNHyQGQDGZ-0ACJnBta0OREKI',
-  authDomain: 'clotihng-commerce.firebaseapp.com',
-  projectId: 'clotihng-commerce',
-  storageBucket: 'clotihng-commerce.appspot.com',
-  messagingSenderId: '547845582628',
-  appId: '1:547845582628:web:1de7fc56e5f7221a24cdb1'
-};
+import firebaseConfig from '../../firebasedetails';
 const firebaseApp = initializeApp(firebaseConfig);
 
 const Googleprovider = new GoogleAuthProvider();
@@ -70,4 +65,11 @@ export const createUserFromEmailAndPassword = async (email, password) => {
 export const signInUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
   return await signInWithEmailAndPassword(auth, email, password);
+};
+
+export const signOutUser = async () => {
+  await signOut(auth);
+};
+export const onAuthStateChangedListner = callback => {
+  onAuthStateChanged(auth, callback);
 };

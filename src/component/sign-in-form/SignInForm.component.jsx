@@ -1,7 +1,9 @@
 import FormInput from '../form-input/FormInput.component';
 import Button from '../button/Button.component';
 import './SignInForm.styles.scss';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { UserContext } from '../../context/User.context';
+
 import {
   signInWithGooglePopup,
   createUserDocumentFromAuth,
@@ -16,18 +18,16 @@ const defaultUser = {
 const SignInForm = () => {
   const [userDetails, setUserDetails] = useState(defaultUser);
   const { email, password } = userDetails;
+  const { currentUser, setCurrentUser } = useContext(UserContext);
   const handleChange = e => {
     const { name, value } = e.target;
     setUserDetails({ ...userDetails, [name]: value });
-    console.log(userDetails);
   };
   const handleSubmit = async e => {
-    event.preventDefault();
+    e.preventDefault();
 
     try {
       const respose = await signInUserWithEmailAndPassword(email, password);
-      console.log(respose.user);
-      setUserDetails(defaultUser);
     } catch (error) {
       if (error.code === 'auth/wrong-password') {
         alert('Please provide the correct password.');
@@ -49,7 +49,10 @@ const SignInForm = () => {
     try {
       const response = await signInWithGooglePopup();
       await createUserDocumentFromAuth(response.user);
-      console.log(response.user);
+      setCurrentUser(response.user);
+      console.log("testing1");
+      setUserDetails(defaultUser);
+      // console.log(response.user);
     } catch (error) {
       console.log('error while signing in with popup,', error.message);
     }
@@ -81,7 +84,11 @@ const SignInForm = () => {
         ></FormInput>
         <div className="btn-container">
           <Button type="submit">Sign In</Button>
-          <Button type='button' buttonType={'google'} onClick={signInWithGoogle}>
+          <Button
+            type="button"
+            buttonType={'google'}
+            onClick={signInWithGoogle}
+          >
             Google Sign IN
           </Button>
         </div>
